@@ -6,25 +6,11 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:42:54 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/14 15:23:07 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/15 17:27:58 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static void	destroy_forks(t_sim *sim, int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < n)
-	{
-		pthread_mutex_destroy(&sim->forks[i].mutex);
-		i++;
-	}
-	free(sim->forks);
-	sim->forks = NULL;
-}
 
 static void	init_one_philo(t_sim *sim, int index, long long base_ms)
 {
@@ -39,13 +25,13 @@ static void	init_one_philo(t_sim *sim, int index, long long base_ms)
 	right = (index + 1) % sim->num_philo;
 	if (left < right)
 	{
-		philo->first_fork = left;
-		philo->second_fork = right;
+		philo->first_fork = &sim->forks[left];
+		philo->second_fork = &sim->forks[right];
 	}
 	else
 	{
-		philo->first_fork = right;
-		philo->second_fork = left;
+		philo->first_fork = &sim->forks[right];
+		philo->second_fork = &sim->forks[left];
 	}
 	philo->meals_eaten = 0;
 	philo->last_meal_ms = base_ms;
@@ -106,6 +92,11 @@ int	init_philos(t_sim *sim)
 	while (i < sim->num_philo)
 	{
 		init_one_philo(sim, i, base_ms);
+		if (pthread_mutex_init(&sim->philos[i].meal_mutex, NULL) != 0)
+		{
+			destroy_philos(sim, i);
+			return (-1);
+		}
 		i++;
 	}
 	return (0);
