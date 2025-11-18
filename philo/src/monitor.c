@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 15:53:23 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/16 07:40:15 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/18 15:16:53 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,7 @@ static int	check_philo_dead(t_philo *philo)
 	diff = now - last;
 	if (diff <= sim->time_to_die)
 		return (0);
-	pthread_mutex_lock(&sim->stop_mutex);
-	if (sim->stop)
-	{
-		pthread_mutex_unlock(&sim->stop_mutex);
-		return (0);
-	}
-	sim->stop = 1;
-	pthread_mutex_lock(&sim->print_mutex);
-	printf("%ld %d died\n", now - sim->start_ms, philo->id);
-	pthread_mutex_unlock(&sim->print_mutex);
-	pthread_mutex_unlock(&sim->stop_mutex);
+	philo_log_die(philo);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 10:28:05 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/18 09:32:38 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/18 18:08:52 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,23 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+# define INIT_NONE 0
+# define INIT_SIM_MUTEX 1
+# define INIT_FORKS 2
+# define INIT_PHILOS 3
+
 typedef struct s_fork
 {
 	pthread_mutex_t	mutex;
 	int				id;
 }					t_fork;
 
-struct s_sim;
+struct	s_sim;
 
 typedef struct s_philo
 {
 	int				id;
+	int				group;
 	pthread_t		thread;
 	int				meals_eaten;
 	pthread_mutex_t	meal_mutex;
@@ -58,6 +64,11 @@ typedef struct s_sim
 	t_philo			*philos;
 }					t_sim;
 
+// init.c
+int					init_sim(t_sim *sim);
+int					init_forks(t_sim *sim);
+int					init_philos(t_sim *sim);
+
 // parse
 int					parse_positive_int(const char *s, int *out);
 int					parse_args(int ac, char **av, t_sim *sim);
@@ -71,18 +82,31 @@ void				smart_usleep(long ms, t_sim *sim);
 // util.c
 void				sim_set_stop(t_sim *sim);
 
-// log.c
-void				*philo_thread(void *arg);
-
 // monitor.c
 void				*monitor_thread(void *arg);
 int					sim_start_threads(t_sim *sim, pthread_t *monitor);
 
+// routine.c
+void				philo_routine(t_philo *philo);
+
+// philo_thread.c
+void				philo_log_die(t_philo *philo);
+void				philo_log(t_philo *philo, const char *msg);
+
 // start.c
 int					sim_start(t_sim *sim, pthread_t *monitor);
+void				*philo_thread(void *arg);
+
+// fairness.c
+void				sim_calc_safe_time_to_die(t_sim *sim);
+int					enter_room(t_philo *philo);
+void				leave_room(t_philo *philo);
+int					philo_is_full(t_philo *philo);
 
 // cleanup.c
 void				destroy_forks(t_sim *sim, int n);
 void				destroy_philos(t_sim *sim, int n);
+void				destroy_sim_mutex(t_sim *sim);
+void				destroy_all(t_sim *sim, int stage);
 
 #endif

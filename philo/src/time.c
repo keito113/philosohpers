@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:00:41 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/14 15:52:34 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/18 17:37:17 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ long	now_ms(void)
 	long			ms;
 
 	if (gettimeofday(&tv, NULL) != 0)
-		return (0);
+		return (-1);
 	ms = tv.tv_sec * 1000L + tv.tv_usec / 1000L;
 	return (ms);
 }
@@ -28,8 +28,8 @@ long	sim_timestamp_ms(t_sim *sim)
 	long	now;
 
 	now = now_ms();
-	if (now == 0)
-		return (0);
+	if (now < 0)
+		return (-1);
 	return (now - sim->start_ms);
 }
 
@@ -49,12 +49,12 @@ void	smart_usleep(long ms, t_sim *sim)
 	long	now;
 
 	start = now_ms();
-	if (start == 0)
+	if (start < 0)
 		return ;
 	while (!sim_is_stopped(sim))
 	{
 		now = now_ms();
-		if (now == 0)
+		if (now < 0)
 			break ;
 		if (now - start >= ms)
 			break ;

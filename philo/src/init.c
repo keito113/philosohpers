@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:42:54 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/15 17:27:58 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/18 17:38:40 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	init_one_philo(t_sim *sim, int index, long long base_ms)
 
 	philo = &sim->philos[index];
 	philo->id = index + 1;
+	philo->group = philo->id % 2;
 	philo->sim = sim;
 	left = index;
 	right = (index + 1) % sim->num_philo;
@@ -42,10 +43,19 @@ int	init_sim(t_sim *sim)
 	sim->forks = NULL;
 	sim->philos = NULL;
 	sim->stop = 0;
+	sim->in_room = 0;
+	sim->start_ms = 0;
+	sim->safe_time_to_die = 0;
 	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0)
 		return (-1);
 	if (pthread_mutex_init(&sim->stop_mutex, NULL) != 0)
 	{
+		pthread_mutex_destroy(&sim->print_mutex);
+		return (-1);
+	}
+	if (pthread_mutex_init(&sim->room_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&sim->stop_mutex);
 		pthread_mutex_destroy(&sim->print_mutex);
 		return (-1);
 	}
@@ -75,14 +85,14 @@ int	init_forks(t_sim *sim)
 
 int	init_philos(t_sim *sim)
 {
-	int			i;
-	long long	base_ms;
+	int		i;
+	long	base_ms;
 
 	sim->philos = malloc(sizeof(t_philo) * sim->num_philo);
 	if (!sim->philos)
 		return (-1);
 	base_ms = now_ms();
-	if (base_ms == -1)
+	if (base_ms < 0)
 	{
 		free(sim->philos);
 		sim->philos = NULL;
