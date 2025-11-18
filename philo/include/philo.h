@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 10:28:05 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/15 17:28:26 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/18 09:32:38 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,14 @@ typedef struct s_sim
 	long			time_to_sleep;
 	int				must_eat;
 	long			start_ms;
+	long			safe_time_to_die;
 	int				stop;
+	int				in_room;
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	room_mutex;
 	t_fork			*forks;
 	t_philo			*philos;
-
 }					t_sim;
 
 // parse

@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 15:53:23 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/15 15:26:09 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/16 07:40:15 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,20 @@ static void	join_created_philos(t_sim *sim, int count)
 static int	all_philos_full(t_sim *sim)
 {
 	int	i;
+	int	full;
 
 	if (sim->must_eat <= 0)
 		return (0);
-	pthread_mutex_lock(&sim->stop_mutex);
 	i = 0;
 	while (i < sim->num_philo)
 	{
-		if (sim->philos[i].meals_eaten < sim->must_eat)
-		{
-			pthread_mutex_unlock(&sim->stop_mutex);
+		pthread_mutex_lock(&sim->philos[i].meal_mutex);
+		full = (sim->philos[i].meals_eaten >= sim->must_eat);
+		pthread_mutex_unlock(&sim->philos[i].meal_mutex);
+		if (!full)
 			return (0);
-		}
 		i++;
 	}
-	pthread_mutex_unlock(&sim->stop_mutex);
 	return (1);
 }
 
@@ -49,12 +48,19 @@ static int	check_philo_dead(t_philo *philo)
 {
 	t_sim	*sim;
 	long	now;
+	long	last;
 	long	diff;
 
 	sim = philo->sim;
+	pthread_mutex_lock(&philo->meal_mutex);
+	last = philo->last_meal_ms;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	now = now_ms();
-	diff = now - philo->last_meal_ms;
-	if (diff <= sim->time_to_die || sim->stop)
+	diff = now - last;
+	if (diff <= sim->time_to_die)
+		return (0);
+	pthread_mutex_lock(&sim->stop_mutex);
+	if (sim->stop)
 	{
 		pthread_mutex_unlock(&sim->stop_mutex);
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 17:24:03 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/15 17:26:43 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/18 10:13:34 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,20 @@ void	destroy_philos(t_sim *sim, int n)
 	}
 	free(sim->philos);
 	sim->philos = NULL;
+}
+
+void	destroy_sim_mutex(t_sim *sim)
+{
+	pthread_mutex_destroy(&sim->print_mutex);
+	pthread_mutex_destroy(&sim->stop_mutex);
+	pthread_mutex_destroy(&sim->room_mutex);
+}
+
+void	destroy_all(t_sim *sim)
+{
+	if (sim->philos)
+		destroy_philos(sim, sim->num_philo);
+	if (sim->forks)
+		destroy_forks(sim, sim->num_philo);
+	destroy_sim_mutex(sim);
 }
