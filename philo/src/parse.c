@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 10:30:37 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/14 12:39:28 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/19 12:38:39 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	print_usage(void)
 {
 	printf("Usage: ./philo philo die eat sleep [must_eat]\n");
-	printf("constraints: philo=1...200, time=1...2147483647, must_eat>=1\n");
+	printf("format: philo=1...200, die/eat/sleep=1...INT_MAX, must_eat>=1\n");
 	return (1);
 }
 

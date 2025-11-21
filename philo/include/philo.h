@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 10:28:05 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/18 18:08:52 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/19 15:53:29 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_sim
 	long			safe_time_to_die;
 	int				stop;
 	int				in_room;
+	int				current_group;
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	room_mutex;
@@ -69,8 +70,10 @@ int					init_sim(t_sim *sim);
 int					init_forks(t_sim *sim);
 int					init_philos(t_sim *sim);
 
-// parse
+// parse_utils.c
 int					parse_positive_int(const char *s, int *out);
+
+// parse
 int					parse_args(int ac, char **av, t_sim *sim);
 
 // time.c
@@ -92,10 +95,10 @@ void				philo_routine(t_philo *philo);
 // philo_thread.c
 void				philo_log_die(t_philo *philo);
 void				philo_log(t_philo *philo, const char *msg);
+void				*philo_thread(void *arg);
 
 // start.c
 int					sim_start(t_sim *sim, pthread_t *monitor);
-void				*philo_thread(void *arg);
 
 // fairness.c
 void				sim_calc_safe_time_to_die(t_sim *sim);

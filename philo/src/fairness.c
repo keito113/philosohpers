@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 12:05:13 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/18 14:10:08 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/19 15:52:40 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,17 @@ void	sim_calc_safe_time_to_die(t_sim *sim)
 int	enter_room(t_philo *philo)
 {
 	t_sim	*sim;
+	int		group;
 
 	sim = philo->sim;
+	group = philo->group;
 	while (!sim_is_stopped(sim))
 	{
 		pthread_mutex_lock(&sim->room_mutex);
-		if (sim->in_room < sim->num_philo - 1)
+		if (sim->in_room == 0)
+			sim->current_group = group;
+		if (sim->in_room < sim->num_philo - 1 && (sim->num_philo % 2 == 0
+				|| sim->current_group == group))
 		{
 			sim->in_room++;
 			pthread_mutex_unlock(&sim->room_mutex);

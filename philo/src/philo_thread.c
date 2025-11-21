@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 10:06:05 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/18 15:04:53 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/19 15:57:08 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ void	philo_log(t_philo *philo, const char *msg)
 
 void	*philo_thread(void *arg)
 {
-	philo_routine((t_philo *)arg);
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	philo_routine(philo);
 	return (NULL);
 }
