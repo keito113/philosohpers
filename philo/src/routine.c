@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 09:12:12 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/19 11:43:00 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/24 12:46:15 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static void	philo_sleep_and_think(t_philo *philo)
 	sim = philo->sim;
 	philo_log(philo, "is sleeping");
 	smart_usleep(sim->time_to_sleep, sim);
+	smart_usleep(1, sim);
 	philo_log(philo, "is thinking");
 }
 
@@ -69,7 +70,7 @@ void	philo_routine(t_philo *philo)
 		return ;
 	}
 	if (philo->id % 2 == 0)
-		usleep(1000);
+		smart_usleep(sim->time_to_eat / 2, sim);
 	while (!sim_is_stopped(sim))
 	{
 		if (!enter_room(philo))

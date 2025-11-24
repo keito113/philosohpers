@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:42:54 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/19 15:50:30 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/24 12:34:24 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ int	init_sim(t_sim *sim)
 	sim->philos = NULL;
 	sim->stop = 0;
 	sim->in_room = 0;
-	sim->current_group = 0;
+	sim->current_group = 1;
+	sim->entered_in_group[0] = 0;
+	sim->entered_in_group[1] = 0;
+	sim->target_in_group[0] = 0;
+	sim->target_in_group[1] = 0;
 	sim->start_ms = 0;
 	sim->safe_time_to_die = 0;
 	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0)

@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 10:28:05 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/19 15:53:29 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/24 12:33:15 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_fork
 	int				id;
 }					t_fork;
 
-struct	s_sim;
+struct s_sim;
 
 typedef struct s_philo
 {
@@ -52,6 +52,8 @@ typedef struct s_sim
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
+	int				target_in_group[2];
+	int				entered_in_group[2];
 	int				must_eat;
 	long			start_ms;
 	long			safe_time_to_die;
