@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 12:05:13 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/24 14:36:36 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/25 10:25:25 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,13 @@ int	enter_room(t_philo *philo)
 	while (!sim_is_stopped(sim))
 	{
 		pthread_mutex_lock(&sim->room_mutex);
-		if (sim->entered_in_group[sim->current_group] >= sim->target_in_group[sim->current_group])
+		if (need_group_flip(sim))
 		{
 			sim->entered_in_group[0] = 0;
 			sim->entered_in_group[1] = 0;
 			sim->current_group ^= 1;
 		}
-		if (philo->group == sim->current_group
-			&& sim->entered_in_group[sim->current_group] < sim->target_in_group[sim->current_group]
-			&& sim->in_room < sim->num_philo - 1)
+		if (can_enter_room_now(sim, philo))
 		{
 			sim->entered_in_group[sim->current_group]++;
 			sim->in_room++;

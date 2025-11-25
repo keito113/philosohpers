@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:42:54 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/24 12:34:24 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/25 11:29:23 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	init_forks(t_sim *sim)
 	i = 0;
 	while (i < sim->num_philo)
 	{
-		sim->forks[i].id = i;
 		if (pthread_mutex_init(&sim->forks[i].mutex, NULL) != 0)
 		{
 			destroy_forks(sim, i);
