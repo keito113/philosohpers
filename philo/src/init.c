@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:42:54 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/25 11:29:23 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/26 15:26:40 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,8 @@ static void	init_one_philo(t_sim *sim, int index, long long base_ms)
 	philo->sim = sim;
 	left = index;
 	right = (index + 1) % sim->num_philo;
-	if (left < right)
-	{
-		philo->first_fork = &sim->forks[left];
-		philo->second_fork = &sim->forks[right];
-	}
-	else
-	{
-		philo->first_fork = &sim->forks[right];
-		philo->second_fork = &sim->forks[left];
-	}
+	philo->first_fork = &sim->forks[left];
+	philo->second_fork = &sim->forks[right];
 	philo->meals_eaten = 0;
 	philo->last_meal_ms = base_ms;
 }
