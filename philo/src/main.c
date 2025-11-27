@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:11:40 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/24 11:36:44 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/27 11:14:08 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int ac, char **av)
 
 	stage = INIT_NONE;
 	if (parse_args(ac, av, &sim) != 0)
-		return (0);
+		return (1);
 	if (run_simulation(&sim, &monitor, &stage) != 0)
 	{
 		destroy_all(&sim, stage);

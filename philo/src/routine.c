@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 09:12:12 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/24 12:46:15 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/27 16:19:23 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,22 @@ static void	philo_take_forks(t_philo *philo)
 static void	philo_eat(t_philo *philo)
 {
 	t_sim	*sim;
+	long	now;
 
 	sim = philo->sim;
+	if (sim_is_stopped(sim))
+		return ;
 	philo_take_forks(philo);
+	now = now_ms();
+	if (now < 0)
+	{
+		sim_set_stop(sim);
+		pthread_mutex_unlock(&philo->first_fork->mutex);
+		pthread_mutex_unlock(&philo->second_fork->mutex);
+		return ;
+	}
 	pthread_mutex_lock(&philo->meal_mutex);
-	philo->last_meal_ms = now_ms();
+	philo->last_meal_ms = now;
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	philo_log(philo, "is eating");

@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 15:50:19 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/25 11:07:45 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/27 11:29:32 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	sim_set_stop(t_sim *sim)
 	pthread_mutex_unlock(&sim->stop_mutex);
 }
 
-// fairness_utils
 int	need_group_flip(t_sim *sim)
 {
 	int	group;
