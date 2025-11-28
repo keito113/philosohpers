@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:42:54 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/26 15:26:40 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/28 17:11:05 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	init_sim(t_sim *sim)
 	sim->target_in_group[0] = 0;
 	sim->target_in_group[1] = 0;
 	sim->start_ms = 0;
-	sim->safe_time_to_die = 0;
 	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0)
 		return (-1);
 	if (pthread_mutex_init(&sim->stop_mutex, NULL) != 0)

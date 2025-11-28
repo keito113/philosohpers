@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 10:28:05 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/25 11:43:40 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/28 17:12:23 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ struct					s_sim
 	int					entered_in_group[2];
 	int					must_eat;
 	long				start_ms;
-	long				safe_time_to_die;
 	int					stop;
 	int					in_room;
 	int					current_group;
@@ -104,7 +103,7 @@ void					*philo_thread(void *arg);
 int						sim_start(t_sim *sim, pthread_t *monitor);
 
 // fairness.c
-void					sim_calc_safe_time_to_die(t_sim *sim);
+void					sim_init_groups(t_sim *sim);
 int						enter_room(t_philo *philo);
 void					leave_room(t_philo *philo);
 int						philo_is_full(t_philo *philo);

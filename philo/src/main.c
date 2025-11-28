@@ -6,7 +6,7 @@
 /*   By: keitabe <keitabe@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:11:40 by keitabe           #+#    #+#             */
-/*   Updated: 2025/11/27 11:14:08 by keitabe          ###   ########.fr       */
+/*   Updated: 2025/11/28 17:12:34 by keitabe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	run_simulation(t_sim *sim, pthread_t *monitor, int *stage)
 	if (init_philos(sim) != 0)
 		return (1);
 	*stage = INIT_PHILOS;
-	sim_calc_safe_time_to_die(sim);
+	sim_init_groups(sim);
 	if (sim_start(sim, monitor) != 0)
 		return (1);
 	return (0);
